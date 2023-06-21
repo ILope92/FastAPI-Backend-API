@@ -3,16 +3,15 @@ import asyncio
 import pytest_asyncio
 from httpx import AsyncClient
 from main import app
+from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import create_database, database_exists
 
 import alembic
 from alembic.config import Config
 from app.core.base.session import get_session
 from app.settings.config import settings
-
-from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
 
 # NOT asyncpg
 db_url_notasyncpg = settings.TEST_POSTGRES_DATABASE_URL.replace("+asyncpg", "")
