@@ -41,6 +41,7 @@
 
 - (GET) [/api/auth/users]() - Получение списка пользователей
 - (POST) [/api/auth/users/create]() - Создание пользователя
+- (POST) [/api/auth/users/register]() - Регистрация пользователя
 - (GET) [/api/auth/users/get/me]() - Получения данных пользователя (себя)
 - (PUT) [/api/auth/users/update/me]() - Обновление данных пользователя (себя)
 - (GET) [/api/auth/users/get/{user_id}]() - Получить данные пользователя по id
