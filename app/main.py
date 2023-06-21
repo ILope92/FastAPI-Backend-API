@@ -1,10 +1,11 @@
 from fastapi import FastAPI
+
 from app.core.exceptions import SettingNotFound
 from app.core.init_app import (
-    register_routers,
+    configure_logging,
     init_middlewares,
     register_exceptions,
-    configure_logging,
+    register_routers,
 )
 
 try:
