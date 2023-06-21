@@ -20,6 +20,48 @@ router = APIRouter()
 
 
 @router.post(
+    "/register",
+    response_model=BaseUserOut,
+    status_code=status.HTTP_201_CREATED,
+    tags=["users"],
+)
+async def register_user(
+    user_in: BaseUserCreate,
+    db_session: AsyncSession = Depends(get_session),
+):
+    """Register user.
+
+    \nRaises:\n
+        HTTPException (400): The user with this username already exists in
+        the system
+
+    \nReturns:\n
+        Optional["User"]: Model user
+    """
+    user: Optional["User"] = await User.get_by_email_and_username(
+        db_session=db_session,
+        email=user_in.email,
+        username=user_in.username,
+    )
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="The user with this username already exists in the system.",
+        )
+
+    password_hash: str = get_password_hash(user_in.password)
+    created_user: Optional["User"] = await User.create(
+        db_session=db_session, user=user_in, password_hash=password_hash
+    )
+    if created_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="The user with this username already exists in the system.",
+        )
+    return created_user
+
+
+@router.post(
     "/create",
     response_model=BaseUserOut,
     status_code=status.HTTP_201_CREATED,
